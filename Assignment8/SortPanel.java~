@@ -1,0 +1,85 @@
+/************************************************************
+ *                                                          *
+ *  CSCI 470-1/502-1    Assignment 8          Spring 2019   *
+ *                                                          *
+ *  Programmer:  Dominykas Karalius - Z1809478              *  
+ *                                                          *
+ *  Date Due:    11:59 PM on Thursday, 05/02/2019           *
+ *                                                          *
+ *  Animation                                               *
+ *                                                          *
+ ************************************************************/ 
+/**
+ * 
+*/
+import javax.swing.JPanel;
+import javax.swing.JComboBox;
+import java.awt.GridBagLayout;
+import java.awt.FlowLayout;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+
+public class SortPanel extends JPanel
+{
+   private String[] sortMethods = {"Selection Sort","Insertion Sort","Bubble Sort","Shell Sort"};
+   private JComboBox sortingMethod = new JComboBox<>(sortMethods);
+   private JPanel test = new JPanel();
+   
+   public SortAnimationPanel animationPanel;
+   
+   public SortPanel()
+   {
+      animationPanel = new SortAnimationPanel();
+      animationPanel.setPreferredSize(new Dimension(500,600));
+      
+      GridBagLayout layout = new GridBagLayout();
+      GridBagConstraints gbc = new GridBagConstraints();
+      
+      test.setLayout(layout);
+      
+      gbc.fill = GridBagConstraints.HORIZONTAL;
+      gbc.gridx = 0;
+      gbc.gridy = 0;
+      test.add(animationPanel,gbc);
+      
+      gbc.gridx = 0;
+      gbc.gridy = 1;
+      test.add(sortingMethod,gbc);
+
+      this.add(test);
+   }
+   
+   public void populate()
+   {
+      animationPanel.populateArray();      
+   }
+   public void disable()
+   {
+      sortingMethod.setEnabled(false); 
+   }
+   public void enable()
+   {
+      sortingMethod.setEnabled(true); 
+   }
+   public void work(String speed)
+   {
+     
+     String selectedType = this.sortingMethod.getSelectedItem().toString();
+     animationPanel.setSpeed(speed);
+     animationPanel.initializeThread(selectedType);
+   }
+   public void pauseAnimation()
+   {
+      animationPanel.pause();
+   }
+   public void resumeAnimation()
+   {
+      animationPanel.resume();
+   }
+   public void kill()
+   {
+      animationPanel.stop(); 
+   }
+}

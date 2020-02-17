@@ -1,0 +1,200 @@
+/************************************************************
+ *                                                          *
+ *  CSCI 470-1/502-1    Assignment 7          Spring 2019   *
+ *                                                          *
+ *  Programmer:  Dominykas Karalius - Z1809478              *  
+ *                                                          *
+ *  Date Due:    11:59 PM on Monday, 04/22/2019             *
+ *                                                          *
+ *  AnimationApp                                            *
+ *                                                          *
+ ************************************************************/ 
+/**
+ * AnimationApp is the main application.
+*/
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JList;
+import javax.swing.JButton;
+import javax.swing.WindowConstants;
+import javax.swing.BorderFactory;
+import javax.swing.JOptionPane;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.EventQueue;
+import java.awt.GridLayout;
+import java.awt.BorderLayout;
+import java.awt.Graphics;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+import java.util.Vector;
+import java.util.Comparator;
+import java.util.StringTokenizer;
+
+public class AnimationApp extends JFrame implements ActionListener, ListSelectionListener
+{
+   private static final long serialVersionUID = 1L;
+   
+   //Initialize buttons
+   private JButton startButton = new JButton("Start");
+   private JButton pauseButton = new JButton("Pause");
+   private JButton stopButton = new JButton("Stop");
+   
+   //Create JList and AnimationPanel object
+   private JList<Animation> list;  
+   private AnimationPanel animationPanel;
+   
+   public static void main(String[] args)
+  {
+     EventQueue.invokeLater(() ->
+     {
+       AnimationApp frame = new AnimationApp("Animation");
+       frame.createAndShowGUI();
+     });
+  }
+  
+  //Set up title of application
+  private AnimationApp(String title)
+  {
+     super(title); //Title on the application window
+     animationPanel = new AnimationPanel();
+  }
+  
+  //Create and setup UI.
+  private void createAndShowGUI()
+  {
+     initComponents();
+     
+     //Add listeners for the buttons.
+     startButton.addActionListener(this);
+     pauseButton.addActionListener(this);
+     stopButton.addActionListener(this);
+     list.addListSelectionListener(this);
+     
+     //Set dimensions and background color of panel where animations will happen
+     animationPanel.setPreferredSize(new Dimension(640, 480));
+     animationPanel.setBackground(Color.BLACK);
+     
+     //Display the window.
+     setLocationRelativeTo(null); // Center the frame
+     setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+     pack();
+     setVisible(true);   
+  }
+  
+  //Add components to the JFrame
+  private void initComponents()
+  {
+     //Create panel that will use buttons
+     JPanel panel = new JPanel(new GridLayout(1, 3, 5, 5));
+     panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+     panel.add(startButton);
+     panel.add(pauseButton);
+     panel.add(stopButton);
+     add(panel, BorderLayout.SOUTH);
+
+     //Enable/disable buttons
+     startButton.setEnabled(true);
+     pauseButton.setEnabled(false);
+     stopButton.setEnabled(false);
+     
+     //Read the file
+     readFile();
+     
+     //Add the list of animation names
+     add(list, BorderLayout.WEST);
+     
+     //Add the panel where animation will happen
+     add(animationPanel, BorderLayout.CENTER);
+  }
+  
+  //Used to read the file that holds the animation information
+  private void readFile()
+  {
+     String animationInfo;
+     String animationName;
+     int width;
+     int height;
+     int frames;
+     int delay;
+     
+     try
+     {
+        Scanner sc = new Scanner(new File("Animations/animations.txt")); 
+        Vector<Animation> vector = new Vector<>();
+        
+        while(sc.hasNext())
+        {
+           animationInfo = sc.nextLine();
+           StringTokenizer st = new StringTokenizer(animationInfo, ":");
+           animationName = st.nextToken();
+           
+           width = Integer.parseInt(st.nextToken());
+           height = Integer.parseInt(st.nextToken());
+           frames = Integer.parseInt(st.nextToken());
+           delay = Integer.parseInt(st.nextToken());
+           
+           Animation anim = new Animation(animationName,width,height,frames,delay);
+           vector.add(anim);
+        }   
+       
+       //Sort the vector by descending animation name
+       vector.sort(Comparator.comparing(Animation::getAnimationName));
+     
+       list = new JList<>(vector);
+       
+       sc.close();
+     }
+     catch(FileNotFoundException e)
+     {
+       JOptionPane.showMessageDialog(null, "File not found in directory", "Error", JOptionPane.ERROR_MESSAGE);
+     }          
+  }
+  //Event handling for buttons
+  @Override
+  public void actionPerformed(ActionEvent event)
+  {
+     String e = event.getActionCommand();
+     
+     if(event.getSource() == startButton)
+     {
+        animationPanel.startAnimation();
+        startButton.setEnabled(false);
+        pauseButton.setEnabled(true);
+        stopButton.setEnabled(true);
+     }
+     if(event.getSource() == stopButton)
+     {
+        animationPanel.stopAnimation();
+        startButton.setEnabled(true);
+        pauseButton.setEnabled(false);
+        stopButton.setEnabled(false);
+        pauseButton.setText("Pause");
+     } 
+     if(e.equals("Pause"))
+     {
+        animationPanel.pauseAnimation();
+        pauseButton.setText("Resume");
+     }
+     if(e.equals("Resume"))
+     {
+        animationPanel.resumeAnimation();
+        pauseButton.setText("Pause");
+     }    
+  }
+  @Override
+  public void valueChanged(ListSelectionEvent e)
+  {
+     animationPanel.stopAnimation();
+     animationPanel.loadAnimation(list.getSelectedValue());
+     startButton.setEnabled(true);
+     pauseButton.setEnabled(false);
+     stopButton.setEnabled(false);
+     pauseButton.setText("Pause");
+  }
+}

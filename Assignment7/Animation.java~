@@ -1,0 +1,50 @@
+public class Animation
+{
+    //Data members that hold information of the animation
+    private String animationName;
+    private int width;
+    private int height;
+    private int frames;
+    private int delay;
+     
+    //Default constructor
+    public Animation(String animationName, int width, int height, int frames, int delay)
+    {
+       this.animationName = animationName;
+       this.width = width;
+       this.height = height;
+       this.frames = frames;
+       this.delay = delay;
+    }
+    //Get methods for data members
+    public String getAnimationName()
+    {
+        return animationName;
+    }
+    
+    public int getWidth()
+    {
+       return width; 
+    }
+    
+    public int getHeight()
+    {
+       return height; 
+    }
+    
+    public int getFrames()
+    {
+       return frames; 
+    }
+    
+    public int getDelay()
+    {
+       return delay; 
+    }
+    
+    @Override
+    public String toString()
+    {
+       return animationName; 
+    }
+}

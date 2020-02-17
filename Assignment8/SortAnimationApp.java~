@@ -1,0 +1,165 @@
+/************************************************************
+ *                                                          *
+ *  CSCI 470-1/502-1    Assignment 8          Spring 2019   *
+ *                                                          *
+ *  Programmer:  Dominykas Karalius - Z1809478              *  
+ *                                                          *
+ *  Date Due:    11:59 PM on Thursday, 05/02/2019           *
+ *                                                          *
+ *  Animation                                               *
+ *                                                          *
+ ************************************************************/ 
+/**
+ * 
+*/
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.GridLayout;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.util.Random;
+
+
+
+public class SortAnimationApp extends JFrame
+{
+   SortPanel panelLeft = new SortPanel();
+   SortPanel panelRight = new SortPanel();
+   
+   private JButton populate = new JButton("Populate");
+   private JPanel buttons = new JPanel();
+   
+   private String[] speeds = {"Slow","Medium","Fast"};
+   private JComboBox sortSpeed = new JComboBox<>(speeds);
+   
+   private JButton sortButton = new JButton("Sort");
+   private JButton pauseButton = new JButton("Pause");
+   private JButton resumeButton = new JButton("Resume");
+   
+   public int randInt[];
+   
+   public static void main(String[] args)
+   { 
+     SwingUtilities.invokeLater(new Runnable(){
+            @Override
+            public void run() 
+            { 
+               SortAnimationApp frame = new SortAnimationApp("Sorting Application"); 
+               frame.createAndShowGUI();
+            }});
+   }
+   
+   private SortAnimationApp(String title)
+   {
+      super(title);
+   }
+   
+   private void createAndShowGUI()
+   {
+      this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+      this.setSize(1200,730);
+      this.setLayout(new FlowLayout());
+      this.setLocationRelativeTo(null);
+      this.setVisible(true);
+     
+      this.add(panelLeft);
+      this.add(panelRight);
+     
+      buttons.add(populate);
+      buttons.add(sortSpeed);
+      buttons.add(sortButton);
+      this.add(buttons);
+      sortButton.setEnabled(false);
+
+      //Button handling for "Populate"
+      PopulateButtonHandler popButton = new PopulateButtonHandler();
+      populate.addActionListener(popButton);
+      
+      //Button handling for "Sort"
+      SortButtonHandler sorButton = new SortButtonHandler();
+      sortButton.addActionListener(sorButton);
+   }
+   /**************************************************************
+   * If "Populate" is clicked, sets the "Populate" button to     *
+   * disabled and populates both panels. Then sets the "Sort"    *
+   * button to enabled.                                          *
+   **************************************************************/
+   public class PopulateButtonHandler implements ActionListener
+   {
+      @Override
+      public void actionPerformed(ActionEvent event)
+      {
+          String e = event.getActionCommand();
+          if(e.equals("Populate"))
+          {
+             populate.setEnabled(false);
+       
+             panelLeft.populate();
+             panelRight.populate();
+       
+             panelLeft.disable();
+             panelRight.disable();
+             
+             sortButton.setText("Sort");
+             sortButton.setEnabled(true);
+             sortSpeed.setEnabled(true);
+         }
+         if(e.equals("Reset"))
+         {
+            panelLeft.kill();
+            panelRight.kill();
+            
+            sortButton.setText("Sort");
+            sortButton.setEnabled(false);
+            sortSpeed.setEnabled(true);
+            populate.setText("Populate");
+            
+            panelLeft.enable();
+            panelRight.enable();
+         }
+      }
+   }
+   /**************************************************************
+   * If "Sort" is clicked, sets the "Sort" button to disabled    *
+   * and populates both panels. Then sets the "Sort" button to   *
+   * enabled.                                                    *
+   **************************************************************/
+   public class SortButtonHandler implements ActionListener
+   {
+      @Override
+      public void actionPerformed(ActionEvent event)
+      {
+        
+         String e = event.getActionCommand();
+       
+         if(e.equals("Sort"))
+         {
+            sortButton.setText("Pause");
+            sortSpeed.setEnabled(false);
+            String speed = sortSpeed.getSelectedItem().toString();
+            panelLeft.work(speed);
+            panelRight.work(speed);
+            populate.setEnabled(true);
+            populate.setText("Reset");
+         }
+         if(e.equals("Pause"))
+         {
+            panelLeft.pauseAnimation();
+            panelRight.pauseAnimation();
+            sortButton.setText("Resume");
+         }
+         if(e.equals("Resume"))
+         {
+            panelLeft.resumeAnimation();
+            panelRight.resumeAnimation();
+            sortButton.setText("Pause");
+         }
+      }
+   }
+
+}
