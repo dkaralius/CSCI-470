@@ -1,0 +1,79 @@
+/************************************************************
+ *                                                          *
+ *  CSCI 470-1/502-1    Assignment 5          Spring 2019   *
+ *                                                          *
+ *  Programmer:  Dominykas Karalius - Z1809478              *  
+ *                                                          *
+ *  Date Due:    11:59 PM on Momday, 04/01/2019             *
+ *                                                          *
+ *  TipApp                                                  *
+ *                                                          *
+ ************************************************************/ 
+/**
+ * TipApp
+ */
+import java.awt.FlowLayout;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
+import javax.swing.JSlider;
+
+public class TipApp extends JFrame
+{
+  private JButton calculate;     //Button used to calculate tip amount
+  private JButton clear;         //Button used to clear and reset UI
+  private JTextField input;      //Text box for user to enter bill amount
+  private JSlider slider;        //Slider to change tip percentage
+  private JLabel billAmount;     //Label to read Bill Amount
+  private JLabel tipPercentage;  //Label to read Tip Percentage
+  private JLabel totalBill;      //Label to read total bill amount
+  private JLabel indShare;       //Label to read individual share
+  
+  public TipApp()
+  {
+     super("Tip Calculator"); //Title on the application window
+     
+     //Set the layout and default color of the application
+     setLayout(new FlowLayout());
+     getContentPane().setBackground(Color.WHITE);
+     
+     //Display the Bill Amount Line
+     billAmount = new JLabel("Bill Amount");
+     add(billAmount);
+     input = new JTextField(5);
+     //input.addActionListener(new TextHandler());
+     add(input);
+     
+     //Display the Tip Percentage Line
+     tipPercentage = new JLabel("Tip Percentage");
+     add(tipPercentage);
+     slider = new JSlider(Jslider.HORIZONTAL,0,50,20); //Sets slider to be from 0-50, default value is 20
+     slider.setMinorTickSpacing(5);
+     slider.setMajorTickSpacing(10);
+     slider.setPaintTicks(true);
+     slider.setPaintLabels(true);
+     slider.setLabelTable(slider.createStandardLabels(10));
+     add(slider);
+     
+     //PARTY SIZE AREA
+     
+     //Display the buttons for user to calculate or clear
+     calculate = new JButton("Calculate");
+     clear = new JButton("Clear");
+     add(calculate);
+     add(clear);
+     
+     //Display the Total Bill(with Tip) and Individual Share line
+     totalBill = new JLabel("Total Bill(with Tip)");
+     add(totalBill);
+     indShare = new JLabel("Individual Share");
+     add(indShare);
+  }
+}
+     
+     
+     

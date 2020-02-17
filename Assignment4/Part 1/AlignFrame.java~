@@ -1,0 +1,61 @@
+/************************************************************
+ *                                                          *
+ *  CSCI 470-1/502-1    Assignment 4, Part 1  Spring 2019   *
+ *                                                          *
+ *  Programmer:  Dominykas Karalius - Z1809478              *  
+ *                                                          *
+ *  Date Due:    11:59 PM on Tuesday, 03/19/2019            *
+ *                                                          *
+ *  AlignFrame                                              *
+ *                                                          *
+ ************************************************************/ 
+/**
+ * AlignFrame is a simple GUI for an application that aligns coordinates.
+ * This application offers no functionality other than simple event handling that 
+ * tells the user which button they have pressed, the values for X and Y, or if the
+ * check boxes are checked or unchecked.
+ */
+import java.awt.GridLayout;
+import java.awt.FlowLayout;
+import java.awt.BorderLayout;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.Insets;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import javax.swing.JPanel;
+import javax.swing.JCheckBox;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JOptionPane;
+
+public class AlignFrame extends JFrame
+{
+   private JButton okButton, cancelButton, helpButton;
+   private JCheckBox snapCheckBox, showCheckBox;
+   private JPanel checkPanel, buttonPanel, fieldPanel, fieldPanel1;
+   private JTextField X, Y;
+   private JLabel labelX, labelY;
+   
+   public AlignFrame()
+   {
+      super("Align");                                                    //Title on top of the application
+      
+      //Build panel for the checkboxes
+      snapCheckBox = new JCheckBox("Snap to Grid");
+      showCheckBox = new JCheckBox("Show Grid");
+      
+      checkPanel = new JPanel();
+      checkPanel.setLayout(new GridLayout(2,1));
+      checkPanel.add(snapCheckBox);
+      checkPanel.add(showCheckBox);   
+   }
+}
+   
+   
+   
+   
+   

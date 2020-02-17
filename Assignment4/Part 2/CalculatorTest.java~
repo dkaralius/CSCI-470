@@ -1,0 +1,23 @@
+/************************************************************
+ *                                                          *
+ *  CSCI 470-1/502-1    Assignment 4, Part 2  Spring 2019   *
+ *                                                          *
+ *  Programmer:  Dominykas Karalius - Z1809478              *  
+ *                                                          *
+ *  Date Due:    11:59 PM on Tuesday, 03/19/2019            *
+ *                                                          *
+ *  CalculatorTest                                          *
+ *                                                          *
+ ************************************************************/ 
+import javax.swing.JFrame;
+
+public class CalculatorTest
+{
+   public static void main(String args[])
+   {
+      Calculator calculator = new Calculator();
+      calculator.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+      calculator.setSize(400,400);
+      calculator.setVisible(true);
+   }
+}

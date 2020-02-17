@@ -1,0 +1,67 @@
+import java.util.Scanner;
+
+
+public class TipAppClass
+{
+    public static void main( String[] args )
+  {
+    public void calculateTips()
+    {
+       double amount;
+       char answer;
+       do
+       {
+          Scanner input = new Scanner( System.in );
+          TipCalculator myTipCalculator = new TipCalculator();
+          do
+          {
+             System.out.print("Please enter the bill amount: ");
+             amount = input.nextLine();
+       
+             while (!input.hasNextDouble())
+             {
+               System.out.println("Not a valid number!");
+               input.next();
+             }  
+             tipCalculator.setBillAmount(amount);
+             tipCalculator.displayMessage();
+          }
+          do
+          {
+             System.out.print("Please enter the tip amount: ");
+             amount = input.nextLine();
+       
+             while (!input.hasNextInt())
+             {
+               System.out.println("Not a valid number!");
+               input.next();
+             }  
+             tipCalculator.setTipPercentage(amount);
+             tipCalculator.displayMessage();
+          }
+          do
+          {
+             System.out.print("Please enter the party size: ");
+             amount = input.nextLine();
+       
+             while (!input.hasNextInt())
+             {
+               System.out.println("Not a valid number!");
+               input.next();
+             }  
+             tipCalculator.setPartySize(amount);
+             tipCalculator.displayMessage();
+          }
+          System.out.print("Total bill is: ");     
+          getTotalBill();
+          System.out.print("Bill per person: ");
+          getIndividualShare();
+       
+          System.out.print("Calculate another bill?(Y/N): ");
+          answer = input.nextLine();
+       
+          while(answer == 'Y' OR 'y');
+       }
+     }
+   }
+}

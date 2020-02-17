@@ -1,0 +1,44 @@
+/************************************************************
+ *                                                          *
+ *  CSCI 470-1/502-1    Assignment 3, Part 2  Spring 2019   *
+ *                                                          *
+ *  Programmer:  Dominykas Karalius - Z1809478              *  
+ *                                                          *
+ *  Date Due:    11:59 PM on Wednesday, 03/06/2019          *
+ *                                                          *
+ *  DateDemo Class                                          *
+ *                                                          *
+ ************************************************************/ 
+/**
+ * The DateDemo Class
+ */
+import java.util.Scanner;
+
+public class DateDemo
+{
+   public static void main( String[] args )
+   {
+      System.out.println("*** Date ***");
+      System.out.println();
+      
+      Scanner input = new Scanner(System.in);
+      int Day;
+      int Month;
+      int Year;
+      
+      System.out.println("Please enter a day:");
+      Day = input.nextInt();
+      System.out.println("Please enter a month(1-12):");
+      Month = input.nextInt();
+      System.out.println("Please enter a year:");
+      Month = input.nextInt();
+      
+      Date date = new Date(Day,Month,Year);
+      
+      System.out.println("You've entered" + date.getDay() + "/" + date.getMonth() + "/" + date.getYear());
+      System.out.println();
+      System.out.println("Calculation days since January 1st, " + date.getYear() + "...");
+      System.out.println();
+      System.out.println("Days since January 1st, " + date.getYear() + ": " + date.daysSinceJan1());
+   }
+}
